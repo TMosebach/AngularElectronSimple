@@ -1,0 +1,14 @@
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Bank</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let konto of konten">
+            <td>{{konto.name}}</td>
+            <td>{{konto.bank}}</td>
+        </tr>
+    </tbody>
+</table>
