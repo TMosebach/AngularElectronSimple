@@ -13,7 +13,13 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+      width: 800, 
+      height: 600,
+      webPreferences: {
+        nodeIntegration: true,
+      }
+    });
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -56,6 +62,11 @@ app.on('activate', function () {
   }
 })
 
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.
+
+const ipcMain = electron.ipcMain;
+  
 const konten = [
   {
     name: 'Giro',
@@ -66,12 +77,17 @@ const konten = [
     bank: 'ING'
   }
 ];
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-app.findAllKonten = function () {
-  return konten;
-}
 
-app.createKonto = function(konto) {
+/**
+ * Synchrones Lesen aller Konten
+ */
+ipcMain.on('findAllKonten', (event, arg) => {
+  event.returnValue = konten;
+});
+
+/**
+ * Asynchrones Schreiben eines Kontos
+ */
+ipcMain.on('createKonto', (event, konto) => {
   konten.push(konto);
-}
+});

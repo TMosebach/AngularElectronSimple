@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { KontenModule } from './konten/konten.module';
+import { NgxElectronModule } from 'ngx-electron';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { KontenModule } from './konten/konten.module';
   ],
   imports: [
     BrowserModule,
+    NgxElectronModule ,
     AppRoutingModule,
     KontenModule
   ],
