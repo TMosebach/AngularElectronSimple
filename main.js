@@ -29,6 +29,8 @@ function createWindow () {
     mainWindow.webContents.openDevTools();
 
       mainWindow.loadURL('http://localhost:4200');
+
+      mainWindow.webContents.openDevTools()
     } else {
       // Path when running electron executable
       const pathIndex = './dist/AngularElectronSimple/index.html';
@@ -39,21 +41,6 @@ function createWindow () {
         slashes: true
       }));
     }
-  /* and load the index.html of the app.
-  if (process.env.DEBUG) {
-    console.log('Starte im Debug-Modus');
-
-    mainWindow.loadURL('http://localhost:4200');
-  } else {
-    mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/AngularElectronSimple/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
-  }*/
-
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
