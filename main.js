@@ -1,15 +1,19 @@
-const electron = require('electron')
+const electron = require('electron');
+const path = require('path');
+const url = require('url');
+
 // Module to control application life.
 const app = electron.app
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
-const path = require('path')
-const url = require('url')
+const args = process.argv.slice(1),
+      serve = args.some(val => val === '--serve');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
 function createWindow () {
   // Create the browser window.
@@ -21,15 +25,35 @@ function createWindow () {
       }
     });
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/AngularElectronSimple/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  if (serve) {
+    mainWindow.webContents.openDevTools();
+
+      mainWindow.loadURL('http://localhost:4200');
+    } else {
+      // Path when running electron executable
+      const pathIndex = './dist/AngularElectronSimple/index.html';
+
+      mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, pathIndex),
+        protocol: 'file:',
+        slashes: true
+      }));
+    }
+  /* and load the index.html of the app.
+  if (process.env.DEBUG) {
+    console.log('Starte im Debug-Modus');
+
+    mainWindow.loadURL('http://localhost:4200');
+  } else {
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'dist/AngularElectronSimple/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }*/
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -70,7 +94,6 @@ app.on('activate', function () {
 
 const ipcMain = electron.ipcMain;
 const Datastore = require('nedb-promises');
-const { consoleTestResultHandler } = require('tslint/lib/test')
 const kontoDb = Datastore.create({
   filename: 'db/konten.json', 
   timestampData: true, 
@@ -82,7 +105,10 @@ const kontoDb = Datastore.create({
  */
 ipcMain.on('findAllKonten', (event, arg) => {
   kontoDb.find({})
-  .then( konten => event.returnValue = konten )
+  .then( konten => {
+    console.log('Konten gefunden', konten);
+    event.returnValue = konten;
+  })
   .catch( (err) => console.error(err));
 });
 
