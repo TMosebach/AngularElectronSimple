@@ -78,32 +78,4 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-const ipcMain = electron.ipcMain;
-const Datastore = require('nedb-promises');
-const kontoDb = Datastore.create({
-  filename: 'db/konten.json', 
-  timestampData: true, 
-  autoload: true 
-});
-
-/**
- * Synchrones Lesen aller Konten
- */
-ipcMain.on('findAllKonten', (event, arg) => {
-  kontoDb.find({})
-  .then( konten => {
-    console.log('Konten gefunden', konten);
-    event.returnValue = konten;
-  })
-  .catch( (err) => console.error(err));
-});
-
-/**
- * Asynchrones Schreiben eines Kontos
- */
-ipcMain.on('createKonto', (event, konto) => {
-  kontoDb.insert(konto)
-  .then( konto => console.log('insert erfolgreich ', konto))
-  .catch( err => console.error(err));
-});
+require('./app/backend.js')(electron.ipcMain);
