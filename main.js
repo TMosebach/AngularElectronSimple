@@ -47,11 +47,14 @@ app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
+  // Es macht nur ein Fenster sinn, also schließen.
+  app.quit();
+
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  //if (process.platform !== 'darwin') {
+  //  app.quit()
+  //}
 })
 
 app.on('activate', function () {
@@ -66,28 +69,28 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 const ipcMain = electron.ipcMain;
-  
-const konten = [
-  {
-    name: 'Giro',
-    bank: 'ING'
-  },
-  {
-    name: 'Extrakonto',
-    bank: 'ING'
-  }
-];
+const Datastore = require('nedb-promises');
+const { consoleTestResultHandler } = require('tslint/lib/test')
+const kontoDb = Datastore.create({
+  filename: 'db/konten.json', 
+  timestampData: true, 
+  autoload: true 
+});
 
 /**
  * Synchrones Lesen aller Konten
  */
 ipcMain.on('findAllKonten', (event, arg) => {
-  event.returnValue = konten;
+  kontoDb.find({})
+  .then( konten => event.returnValue = konten )
+  .catch( (err) => console.error(err));
 });
 
 /**
  * Asynchrones Schreiben eines Kontos
  */
 ipcMain.on('createKonto', (event, konto) => {
-  konten.push(konto);
+  kontoDb.insert(konto)
+  .then( konto => console.log('insert erfolgreich ', konto))
+  .catch( err => console.error(err));
 });
