@@ -5,6 +5,8 @@ const url = require('url');
 // Module to control application life.
 const app = electron.app
 
+app.commandLine.appendSwitch('lang', 'de');
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -18,8 +20,8 @@ let mainWindow;
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-      width: 800, 
-      height: 600,
+      width: 1200, 
+      height: 800,
       webPreferences: {
         nodeIntegration: true,
       }
@@ -27,7 +29,6 @@ function createWindow () {
 
   if (serve) {
     mainWindow.webContents.openDevTools();
-
       mainWindow.loadURL('http://localhost:4200');
 
       mainWindow.webContents.openDevTools()
