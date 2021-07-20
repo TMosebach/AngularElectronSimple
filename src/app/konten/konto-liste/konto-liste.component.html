@@ -1,14 +1,18 @@
-<table border="1">
+<table class="table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Bank</th>
+            <th>IBAN</th>
+            <th>Saldo</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let konto of konten">
-            <td>{{konto.name}}</td>
+            <td><a routerLink="../buchungen/{{konto._id}}">{{konto.name}}</a></td>
             <td>{{konto.bank}}</td>
+            <td>{{konto.iban}}</td>
+            <td>{{konto.saldo}}</td>
         </tr>
     </tbody>
 </table>

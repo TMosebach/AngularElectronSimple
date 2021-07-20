@@ -1,5 +1,12 @@
 <form [formGroup]="kontoForm">
-    <div><input type="text" placeholder="Name" formControlName="name"></div>
+    <div>
+        <select name="type" id="type" formControlName="type">
+            <option>Konto</option>
+            <option>Depot</option>
+        </select>
+    </div>
+    <div><input type="text" autofocus placeholder="Name" formControlName="name"></div>
     <div><input type="text" placeholder="Bank" formControlName="bank"></div>
-    <div><button (click)="speichern()">Speichern</button></div>
+    <div><input type="text" placeholder="IBAN" formControlName="iban"></div>
+    <div><button (click)="speichern()" [disabled]="!kontoForm.valid">Speichern</button></div>
 </form>

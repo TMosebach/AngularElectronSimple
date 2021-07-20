@@ -17,12 +17,16 @@ export class KontoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.kontoForm = this.fb.group({
+      type: ['Konto', Validators.required],
       name: ['', Validators.required],
-      bank: []
+      bank: [],
+      iban: []
     });
   }
 
   speichern(): void {
-    this.doSpeichern.emit(this.kontoForm.value);
+    const konto = this.kontoForm.value;
+    konto.saldo = 0.0;
+    this.doSpeichern.emit(konto);
   }
 }
