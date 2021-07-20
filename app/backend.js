@@ -1,9 +1,16 @@
 const Datastore = require('nedb-promises');
-const kontoDb = Datastore.create({
-  filename: 'db/konten.json', 
-  timestampData: true, 
-  autoload: true 
-});
+const db = {
+    kontoDb: Datastore.create({
+                filename: 'db/konten.json', 
+                timestampData: true, 
+                autoload: true 
+            }),
+    buchenDb: Datastore.create({
+        filename: 'db/buchungen.json', 
+        timestampData: true, 
+        autoload: true 
+    })
+};
 
 module.exports = function(ipcMain) {
     this.ipcMain = ipcMain;
@@ -12,7 +19,7 @@ module.exports = function(ipcMain) {
     * Synchrones Lesen aller Konten
     */
    this.ipcMain.on('findAllKonten', (event, arg) => {
-     kontoDb.find({})
+     db.kontoDb.find({})
      .then( konten => {
        console.log('Konten gefunden', konten);
        event.returnValue = konten;
@@ -24,7 +31,7 @@ module.exports = function(ipcMain) {
     * Asynchrones Schreiben eines Kontos
     */
    this.ipcMain.on('createKonto', (event, konto) => {
-     kontoDb.insert(konto)
+     db.kontoDb.insert(konto)
      .then( konto => console.log('insert erfolgreich ', konto))
      .catch( err => console.error(err));
    });
