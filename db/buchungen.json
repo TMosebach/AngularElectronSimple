@@ -1,0 +1,1 @@
+{"empfaenger":"Ich","type":"Buchung","umsaetze":[{"betrag":-200,"konto":"Giro","valuta":"2021-07-31T00:00:00.000Z"},{"betrag":200,"konto":"Tagesgeld","valuta":"2021-07-31T00:00:00.000Z"}],"verwendung":"Sparen","_id":"DKic3DyXtQwqLHuE","createdAt":{"$$date":1627736031312},"updatedAt":{"$$date":1627736031312}}

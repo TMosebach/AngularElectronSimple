@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Konto } from '../domain/konto';
 import { KontoService } from '../domain/konto.service';
 
@@ -9,11 +11,11 @@ import { KontoService } from '../domain/konto.service';
 })
 export class KontoListeComponent implements OnInit {
 
-  konten: Konto[];
+  konten$: Observable<Konto[]>;
 
   constructor(private kontoService: KontoService) { }
 
   ngOnInit(): void {
-    this.konten = this.kontoService.findAll();
+    this.konten$ = this.kontoService.findAll();
   }
 }
